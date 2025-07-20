@@ -7,6 +7,7 @@
     body {
       margin: 0;
       overflow: hidden;
+      background-color: black;
     }
 
     canvas {
@@ -15,23 +16,21 @@
 
     #speechResult {
       position: fixed;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.9);
-      color: black;
-      padding: 12px 24px;
+      top: 10px;
+      left: 10px;
+      background: transparent;
+      color: white;
       font-size: 20px;
-      border-radius: 10px;
-      opacity: 0;
-      transition: opacity 0.5s;
+      font-family: monospace;
+      padding: 0;
       z-index: 9999;
       pointer-events: none;
+      opacity: 1;
     }
   </style>
 </head>
 <body>
-  <div id="speechResult">語音結果會顯示在這裡</div>
+  <div id="speechResult">語音：</div>
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
   <script>
@@ -70,7 +69,7 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // 語音控制函式
+    // 🎮 控制函式
     window.rotateLeft = function () {
       cube.rotation.y -= 0.1;
     };
@@ -86,16 +85,10 @@
       camera.position.z = Math.min(20, camera.position.z);
     };
 
-    // 🎤 顯示語音辨識文字 + 控制
+    // 🎤 顯示語音結果 + 執行控制
     window.showRecognizedText = function (text) {
       const el = document.getElementById("speechResult");
-      el.innerText = "你說的是：" + text;
-      el.style.opacity = 1;
-
-      clearTimeout(window._fadeOutTimeout);
-      window._fadeOutTimeout = setTimeout(() => {
-        el.style.opacity = 0;
-      }, 3000);
+      el.innerText = "語音：" + text;
 
       if (text.includes("左")) rotateLeft();
       else if (text.includes("右")) rotateRight();
